@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRef, useEffect } from 'react'
-import { Player, Pipe } from "./classes.js"
+import { Player, Pipe, Background } from "./classes.js"
 
 
 /// full logic of the game will be wriiten here
@@ -11,9 +11,10 @@ export default function Canvas(props) {
   useEffect(() => {
     const canvas = canvasRef.current
     const c = canvas.getContext('2d')
-    canvas.height = innerHeight - 200
+    canvas.height = 700
     canvas.width = 500
 
+    const background = new Background(c)
     const player = new Player(canvas)
     const x = canvas.width, y = 300
     const pipes = [new Pipe(canvas, x), new Pipe(canvas, x + y)]
@@ -22,6 +23,7 @@ export default function Canvas(props) {
       // if (gameOver) cancelAnimationFrame(req)
       c.fillStyle = 'white'
       c.fillRect(0, 0, canvas.width, canvas.height)
+      background.update()
       player.update()
       pipes.forEach((pipe) => pipe.update())
     }

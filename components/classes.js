@@ -1,3 +1,5 @@
+// import Image from "next/image"
+
 const gravity = 0.2
 class Player {
   constructor(canvas) {
@@ -58,4 +60,35 @@ class Pipe {
   }
 }
 
-export { Player, Pipe }
+class Background {
+  constructor(canvasContext) {
+    this.c = canvasContext
+    // this.bgImg = <img src="./img/bg.png" />
+    this.bgImg = new Image()
+    this.bgImg.src = '/img/main-bg.png'
+    this.bgmfImg = new Image()
+    this.bgmfImg.src = '/img/bgmf.png'
+    this.bgmImg = new Image()
+    this.bgmImg.src = '/img/bitmap.png'
+    this.imgWidth = 0
+    this.imgWidth2 = 0
+  }
+  update() {
+    // this.c.fillRect(0, 0, this.c.canvas.width, this.c.canvas.height)
+    this.c.drawImage(this.bgImg, 0, 0);
+
+    this.c.drawImage(this.bgmfImg, this.imgWidth2, 0);
+    this.c.drawImage(this.bgmfImg, this.imgWidth2 + this.c.canvas.width, 0);
+
+    this.c.drawImage(this.bgmImg, this.imgWidth, 0, this.c.canvas.width, this.c.canvas.height);
+    this.c.drawImage(this.bgmImg, this.imgWidth + this.c.canvas.width, 0, this.c.canvas.width, this.c.canvas.height);
+    this.imgWidth -= 1.5;
+    if (this.imgWidth <= -this.c.canvas.width)
+      this.imgWidth = 0;
+    this.imgWidth2 -= 0.2;
+    if (this.imgWidth2 <= -this.c.canvas.width)
+      this.imgWidth2 = 0;
+  }
+}
+
+export { Player, Pipe, Background }
