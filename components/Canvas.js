@@ -18,6 +18,7 @@ export default function Canvas(props) {
     const player = new Player(canvas)
     const x = canvas.width, y = 300
     const pipes = [new Pipe(canvas, x), new Pipe(canvas, x + y)]
+    // const offset = 50
     function animate() {
       const req = requestAnimationFrame(animate)
       // if (gameOver) cancelAnimationFrame(req)
@@ -25,7 +26,11 @@ export default function Canvas(props) {
       c.fillRect(0, 0, canvas.width, canvas.height)
       background.update()
       player.update()
-      pipes.forEach((pipe) => pipe.update())
+      pipes.forEach((pipe) => {
+        pipe.update()
+        if (pipe.x <= player.x + player.w && pipe.x + pipe.w >= player.x)
+          if (player.y + player.h >= pipe.y2 || player.y <= pipe.y2 - pipe.gap);// Lose function here
+      })
     }
     animate()
     addEventListener('keydown', ({ code }) => {

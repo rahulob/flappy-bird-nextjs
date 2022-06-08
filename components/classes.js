@@ -24,17 +24,17 @@ class Player {
   }
 }
 
-const gap = 200
+const gap = 250
 class Pipe {
   constructor(canvas, x) {
-    this.y1
     this.canvas = canvas
     this.c = canvas.getContext('2d')
     this.w = 100
     this.h = canvas.height
     this.x = x
-    this.selectRandomHeight()
     this.velocity = 3
+    this.gap = gap
+    this.selectRandomHeight()
   }
   selectRandomHeight() {
     // const heights = [150, 200, 250, 300, 350, 400, 450, 500]
@@ -43,7 +43,7 @@ class Pipe {
     var height = Math.floor(Math.random() * (max - 2 + 1) + 2) * 50
     // var height = 600 - gap - 50;
     this.y1 = height - this.h
-    this.y2 = this.h + this.y1 + gap
+    this.y2 = this.h + this.y1 + this.gap
   }
   draw() {
     this.c.fillStyle = 'green'
