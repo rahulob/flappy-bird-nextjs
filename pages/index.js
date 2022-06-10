@@ -1,7 +1,7 @@
-import Canvas from '../components/Canvas'
+import GameBox from '../components/GameBox'
 
 export default function Home() {
   return (
-    <Canvas />
+    <GameBox width={500} height={600} />
   )
 }
