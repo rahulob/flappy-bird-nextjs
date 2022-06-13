@@ -5,13 +5,13 @@ import { useEffect } from 'react'
 import { store, constants } from './store'
 
 
-export default function Bird(props) {
+export default function Bird() {
   const birdPosition = useSelector((state) => state.birdPosition)
   const gameStarted = useSelector((state) => state.gameStarted)
 
   useEffect(() => {
     let timeId
-    if (gameStarted && birdPosition < props.height - constants.BIRD_SIZE)
+    if (gameStarted && birdPosition < constants.WINDOW_HEIGHT - constants.BIRD_SIZE)
       timeId = setInterval(() => {
         store.dispatch(setBirdPosition(constants.GRAVITY))
       }, 24)
@@ -27,6 +27,7 @@ position: absolute;
 top: ${(props) => props.top}px;
 left: ${(props) => props.left}px;
 background-color: red;
+background: no-repeat center/100% url('/img/bird1.png');
 width: ${constants.BIRD_SIZE}px;
 height: ${constants.BIRD_SIZE}px
 `
