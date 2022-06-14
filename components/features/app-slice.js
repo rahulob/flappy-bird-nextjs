@@ -4,7 +4,7 @@ const initialState = {
   score: 0,
   gameStarted: false,
   isGameOver: false,
-  birdPosition: 330,
+  birdPosition: 300,
   pipePosition: 500
 }
 const Slice = createSlice({

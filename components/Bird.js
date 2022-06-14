@@ -1,20 +1,30 @@
-import { setBirdPosition } from './features/app-slice'
+import { gameOver, setBirdPosition } from './features/app-slice'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { store, constants } from './store'
 
 
 export default function Bird() {
   const birdPosition = useSelector((state) => state.birdPosition)
   const gameStarted = useSelector((state) => state.gameStarted)
+  const [dieAudio, setAudio] = useState(null)
+  useEffect(() => {
+    setAudio(new Audio('/sound-effects/die.wav'))
+    // only run once on the first render on the client
+  }, [])
 
   useEffect(() => {
     let timeId
-    if (gameStarted && birdPosition < constants.WINDOW_HEIGHT - constants.BIRD_SIZE)
-      timeId = setInterval(() => {
-        store.dispatch(setBirdPosition(constants.GRAVITY))
-      }, 24)
+    if (gameStarted)
+      if (birdPosition < constants.WINDOW_HEIGHT)
+        timeId = setInterval(() => {
+          store.dispatch(setBirdPosition(constants.GRAVITY))
+        }, 24)
+      else {
+        store.dispatch(gameOver())
+        dieAudio.play()
+      }
     return () => clearInterval(timeId)
   }, [gameStarted, birdPosition]);
   return (

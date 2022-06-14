@@ -4,8 +4,15 @@ import { startGame, setBirdPosition, resetGame } from './features/app-slice'
 import { store, constants } from './store'
 import { useSelector } from 'react-redux'
 import Bird from './Bird'
+import { useEffect, useState } from 'react'
 
-export default function GameBox(props) {
+
+export default function GameBox() {
+  const [jumpAudio, setAudio] = useState(null)
+  useEffect(() => {
+    setAudio(new Audio('/sound-effects/jump.wav'))
+    // only run once on the first render on the client
+  }, [])
   const birdPosition = useSelector((state) => state.birdPosition)
   const score = useSelector((state) => state.score)
   const gameStarted = useSelector(state => state.gameStarted)
@@ -13,15 +20,21 @@ export default function GameBox(props) {
 
   function jump() {
     const JUMP = constants.JUMP
-    if (isGameOver) store.dispatch(resetGame())
+    if (isGameOver) {
+      store.dispatch(resetGame())
+      return
+    }
     else if (!gameStarted) {
       // store.dispatch(resetGame())
       store.dispatch(startGame())
     }
     else if (birdPosition - JUMP >= 0)
-      // setBirdPosition(birdPosition => birdPosition - JUMP)
       store.dispatch(setBirdPosition(-JUMP))
+
     else store.dispatch(setBirdPosition(0))
+    jumpAudio.pause();
+    jumpAudio.currentTime = 0;
+    jumpAudio.play()
   }
   return (
     <Box onClick={jump}>
@@ -48,21 +61,26 @@ width: ${constants.WINDOW_WIDTH}px;
 height: ${constants.WINDOW_HEIGHT}px
 `
 const GameStart = styled.div`
-background: no-repeat center/50% url('/img/gamestart.png');
+background: no-repeat center/70% url('/img/gamestart.png');
 text-align: center;
 width: 100%;
 height: 100%;
 `
 const GameOver = styled.div`
+position: relative;
+z-index: 10;
 background: no-repeat center/70% url('/img/gameover.png');
 text-align: center;
 width: 100%;
 height: 100%;
 `
 const Score = styled.div`
+font-family: 'Gamja Flower', cursive;
+color: white;
+text-shadow: black 2px 2px;
 position: absolute;
 font-size: 3rem;
 z-index:1;
-top: 30px;
-right: 50%;
+right: 10%;
+top: 0;
 `
