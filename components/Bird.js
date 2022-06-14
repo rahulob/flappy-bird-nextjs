@@ -26,18 +26,22 @@ export default function Bird() {
         dieAudio.play()
       }
     return () => clearInterval(timeId)
-  }, [gameStarted, birdPosition]);
+  }, [gameStarted, birdPosition])
+
   return (
     <BirdBox top={birdPosition} left={constants.BIRD_OFFSET} />
   )
 }
 
-const BirdBox = styled.div`
+const BirdBox = styled.div.attrs(props => ({
+  style: {
+    top: props.top,
+    left: props.left,
+  },
+}))`
 position: absolute;
-top: ${(props) => props.top}px;
-left: ${(props) => props.left}px;
 background-color: red;
-background: no-repeat center/100% url('/img/bird1.png');
+background: no-repeat center/100% url('/img/ezgif.com-gif-maker.gif');
 width: ${constants.BIRD_SIZE}px;
 height: ${constants.BIRD_SIZE}px
 `

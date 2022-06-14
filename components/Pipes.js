@@ -17,11 +17,12 @@ export default function Pipes() {
   const gameStarted = useSelector((state) => state.gameStarted)
   const [hitSound, setHitSound] = useState(null)
   const [scoreSound, setScoreSound] = useState(null)
-  const [height1, setHeight1] = useState(selectRandomHeight())
+  const [height1, setHeight1] = useState(null)
 
   useEffect(() => {
     setHitSound(new Audio('/sound-effects/hit.wav'))
     setScoreSound(new Audio('/sound-effects/point.wav'))
+    setHeight1(selectRandomHeight())
     // only run once on the first render on the client
   }, [])
 
