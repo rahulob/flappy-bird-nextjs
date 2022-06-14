@@ -27,6 +27,7 @@ export default function GameBox() {
     else if (!gameStarted) {
       // store.dispatch(resetGame())
       store.dispatch(startGame())
+      return
     }
     else if (birdPosition - JUMP >= 0)
       store.dispatch(setBirdPosition(-JUMP))
